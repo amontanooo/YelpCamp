@@ -58,7 +58,6 @@ module.exports.updateCampground = async (req, res) => {
     const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
     campground.images.push(...imgs);
     await campground.save();
-    console.log(campground.images);
     if (req.body.deleteImages) {
         for (let filename of req.body.deleteImages) {
             await cloudinary.uploader.destroy(filename);

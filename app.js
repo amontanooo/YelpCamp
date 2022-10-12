@@ -60,6 +60,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+//Set up flash messages
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
@@ -67,16 +68,12 @@ app.use((req, res, next) => {
     next();
 })
 
-app.get('/fakeUser', async (req, res) => {
-    const user = new User({ email: 'example@gmail.com', username: 'exampler' });
-    const registeredUser = await User.register(user, 'cheetos');
-    res.send(registeredUser);
-})
-
+//Connecting routes
 app.use('/', userRoutes);
 app.use('/campgrounds', campgroundRoutes);
 app.use('/campgrounds/:id/reviews', reviewRoutes);
 
+//Render home page
 app.get('/', (req, res) => {
     res.render('home')
 })
